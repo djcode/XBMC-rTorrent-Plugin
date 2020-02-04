@@ -1,57 +1,52 @@
-# Imports
+'''Assorted functions for the rTorrent plugin'''
 import os
 import sys
-import globals as g
+from . import globals as g
 
-
-# Get parameters script from Voinage's tutorial
 def get_params():
+    '''Get parameters script (from Voinage's tutorial)'''
     param = []
     paramstring = sys.argv[2]
     if len(paramstring) >= 2:
         params = sys.argv[2]
         cleanedparams = params.replace('?', '')
-        if (params[len(params) - 1] == '/'):
+        if params[len(params) - 1] == '/':
             params = params[0:len(params) - 2]
         pairsofparams = cleanedparams.split('&')
         param = {}
-        for i in range(len(pairsofparams)):
+        for i in xrange(len(pairsofparams)):
             splitparams = {}
             splitparams = pairsofparams[i].split('=')
             if (len(splitparams)) == 2:
                 param[splitparams[0]] = splitparams[1]
     return param
 
-
-# Get torrent or file status icon
-def getIcon(isdir, active, complete, p):
+def get_icon(isdir, active, complete, priority):
+    '''Get torrent or file status icon'''
     if isdir > 1:
         icon = "dir"
-        p += 3
+        priority += 3
     elif isdir == 0:
         icon = "file"
     else:
         icon = "file"
-        p += 3
+        priority += 3
     if active == 1:
         if complete == 1:
             iconcol = "9"
         else:
-            if p == 0:  # Don't Download
-                iconcol = "0"
-            elif p == 1:  # Normal
-                iconcol = "3"
-            elif p == 2:  # High
-                iconcol = "4"
-            # Now for downloads, not files
-            elif p == 3:  # Idle
-                iconcol = "1"
-            elif p == 4:  # Low
-                iconcol = "2"
-            elif p == 5:  # Normal
-                iconcol = "3"
-            elif p == 6:  # High
-                iconcol = "4"
+            switch = {
+                # Files
+                0: "0", # Don't Download
+                1: "3", # Normal
+                2: "4", # High
+                # Downloads
+                3: "1", # Idle
+                4: "2", # Low
+                5: "3", # Normal
+                6: "4" # High
+            }
+            iconcol = switch.get(priority, "0")
     else:
         iconcol = "0"
     return os.path.join(g.__icondir__, icon + '_' + iconcol + '.jpg')

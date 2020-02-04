@@ -1,11 +1,10 @@
-# Import
+'''Application to send "actions" back to rTorrent'''
 import xbmc
 import xbmcgui
-import globals as g
+import resources.lib.globals as g
 
-
-# Send action to rTorrent
 def main(method, arg1, arg2, arg3):
+    ''' Send action to rTorrent '''
     allok = 0
     if method.find('erase') != -1:
         dialog = xbmcgui.Dialog()
@@ -17,7 +16,6 @@ def main(method, arg1, arg2, arg3):
     if allok == 1:
         if arg3:
             # only used at this stage to change priority on files in torrent
-            # TODO: Must clean this up and put integer checking in place
             function = 'g.rtc.' + method + '("' + arg1 + '",' + arg2 + ',' + arg3 + ')'
         elif arg2:
             function = 'g.rtc.' + method + '("' + arg1 + '","' + arg2 + '")'

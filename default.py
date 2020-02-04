@@ -1,59 +1,56 @@
 # main imports
 import urllib
 
-#extra imports
-from resources.lib.functions import *
+PARAMS = get_params()
 
-params=get_params()
-
-url=None
-hash=None
-mode=None
-numfiles=None
-method=None
-arg1=None
-arg2=None
-arg3=None
-test=False
+url = None
+digest = None
+mode = None
+numfiles = None
+method = None
+arg1 = None
+arg2 = None
+arg3 = None
+test = False
 
 try:
-        hash=str(params["hash"])
+    digest = str(PARAMS["digest"])
 except:
-        pass
+    pass
 try:
-        mode=str(params["mode"])
+    mode = str(PARAMS["mode"])
 except:
-        pass
+    pass
 try:
-        numfiles=int(params["numfiles"])
+    numfiles = int(PARAMS["numfiles"])
 except:
-        pass
+    pass
 try:
-        method=str(urllib.unquote_plus(params["method"]))
+    method = str(urllib.unquote_plus(PARAMS["method"]))
 except:
-        pass		
+    pass
 try:
-        arg1=str(urllib.unquote_plus(params["arg1"]))
+    arg1 = str(urllib.unquote_plus(PARAMS["arg1"]))
 except:
-        pass		
+    pass
 try:
-        arg2=str(urllib.unquote_plus(params["arg2"]))
+    arg2 = str(urllib.unquote_plus(PARAMS["arg2"]))
 except:
-        pass		
+    pass
 try:
-        arg3=str(urllib.unquote_plus(params["arg3"]))
+    arg3 = str(urllib.unquote_plus(PARAMS["arg3"]))
 except:
-        pass
+    pass
 
-if mode==None:
-	import resources.lib.mode_main as loader
-	loader.main()
-elif mode=='files':
-	import resources.lib.mode_files as loader
-	loader.main(hash,numfiles)
-elif mode=='action':
-	import resources.lib.mode_action as loader
-	loader.main(method,arg1,arg2,arg3)
-elif mode=='play':
-	import resources.lib.mode_play as loader
-	loader.main(hash,arg1)
+if mode is None:
+    import resources.lib.mode_main as loader
+    loader.main()
+elif mode == 'files':
+    import resources.lib.mode_files as loader
+    loader.main(digest, numfiles)
+elif mode == 'action':
+    import resources.lib.mode_action as loader
+    loader.main(method, arg1, arg2, arg3)
+elif mode == 'play':
+    import resources.lib.mode_play as loader
+    loader.main(digest, arg1)
